@@ -1,6 +1,6 @@
 import pygame
 from classes import *
-
+from random import randint
 # Initiliser pygame
 pygame.init()
 
@@ -22,6 +22,11 @@ screen.fill((BLUE))
 # Variable de position des blocs de terre
 xx = 0
 yy = 0 
+
+# variable pour la position des fourmi 
+fourmi_xx = randint(100, 700)
+fourmi_yy = 9 * 16 - 5
+
 # fabrication des blocs de terre
 with  open("m.txt", "r") as fichier:
     for ligne in fichier:
@@ -33,7 +38,9 @@ with  open("m.txt", "r") as fichier:
             xx += 1
         xx = 0
         yy += 1
-
+_fourmi = fourmi(fourmi_xx,fourmi_yy )
+liste_fourmi.add(_fourmi)
+liste_globale_sprites.add(_fourmi)
 # Boucle jusqu'a ce que l'utilisateur clique sur le bouton de fermeture
 end = False
 
@@ -46,7 +53,9 @@ while not end:
         if event.type == pygame.QUIT:
             end = True
     # Mettre a jour et dessiner la fourmiliere
+    
     liste_globale_sprites.update()
+    screen.fill(BLUE)
     liste_globale_sprites.draw(screen)
     
     # Rafraichir l'ecran
