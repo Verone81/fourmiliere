@@ -1,55 +1,55 @@
 import pygame
-from pygame.locals import *
-from random import randint
-from mesClass import *
+from classes import *
 
+# Initiliser pygame
 pygame.init()
 
-# Définir les couleurs
+# Definir les couleurs
 BLUE = (135,206,250)
 BROWN = (255,140,0)
 BLACK = (0, 0, 0)
 
-# Dmension de la fenêtre
-WIDTH_SCREEN = 800
-HEIGHT_SCREEN = 800
+# Dimension de la fenetre
+WIDTH_SCREEN, HEIGHT_SCREEN = 800, 800
 
-fenetre = pygame.display.set_mode((WIDTH_SCREEN, HEIGHT_SCREEN))
+# Nommer et afficher l'ecran
+screen = pygame.display.set_mode((WIDTH_SCREEN, HEIGHT_SCREEN))
 pygame.display.set_caption("Fourmiliere")
 
-# Boucle jusqu'à ce que l'utilisateur clique sur le bouton de fermeture
+# Couleur de fond
+screen.fill((BLUE))
+
+# Variable de position des blocs de terre
+xx = 0
+yy = 0 
+# fabrication des blocs de terre
+with  open("m.txt", "r") as fichier:
+    for ligne in fichier:
+        for sprite in ligne:
+            if sprite == "m":
+                _bloc_terre = bloc_terre(xx, yy)
+                liste_bloc_terre.add(_bloc_terre)
+                liste_globale_sprites.add(_bloc_terre)
+            xx += 1
+        xx = 0
+        yy += 1
+
+# Boucle jusqu'a ce que l'utilisateur clique sur le bouton de fermeture
 end = False
 
-# Utilisé pour gérer la vitesse de rafraîchissement de l'écran
+# Utiliser pour gerer la vitesse de rafraichissement de l'ecran
 clock = pygame.time.Clock()
 
-# Position du bloc de terre de depart
-x = 0
-y = 200
-
-# Position de départ des fourmis
-pos_xx_fourmi = randint(100, 700)
-pos_yy_fourmi = 195
-
-# couleur de fond
-fenetre.fill((BLUE))
-
-for i in range(595):
-    for j in range(800):
-        list_terre = terre(fenetre, x, y, 1, 1)
-        x += 1
-    x = 0
-    y += 1
-    
-fourmi(fenetre, pos_xx_fourmi, pos_yy_fourmi, 5, 5)
-fourmiDig()
 # Boucle principale du programme
 while not end:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             end = True
+    # Mettre a jour et dessiner la fourmiliere
+    liste_globale_sprites.update()
+    liste_globale_sprites.draw(screen)
     
-    # Mettre à jour l'écran
+    # Rafraichir l'ecran
     pygame.display.update()
 
     # Limiter à 60 images par seconde
